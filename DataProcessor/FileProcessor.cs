@@ -34,11 +34,8 @@ namespace DataProcessor
             string inputFileDirectoryPath = Path.GetDirectoryName(InputFilePath);
             string backupDirectoryPath = Path.Combine(rootDirectoryPath, BackupDirectoryName);
 
-            if (!Directory.Exists(backupDirectoryPath))
-            {
-                WriteLine($"Creating {backupDirectoryPath}");
-                Directory.CreateDirectory(backupDirectoryPath);
-            }
+            // Make a backup dir if one does not exist
+            Directory.CreateDirectory(backupDirectoryPath);
         }
     }
 }
