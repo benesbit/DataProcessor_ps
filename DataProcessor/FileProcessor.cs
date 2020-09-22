@@ -36,6 +36,12 @@ namespace DataProcessor
 
             // Make a backup dir if one does not exist
             Directory.CreateDirectory(backupDirectoryPath);
+
+            // Copy file to backup dir
+            string inputFileName = Path.GetFileName(InputFilePath);
+            string backupFilePath = Path.Combine(backupDirectoryPath, inputFileName);
+            WriteLine($"Copying {InputFilePath} to {backupFilePath}");
+            File.Copy(InputFilePath, backupFilePath);
         }
     }
 }
