@@ -31,7 +31,14 @@ namespace DataProcessor
             WriteLine($"Root data path is {rootDirectoryPath}");
 
             // Check if backup dir exists
-            string InputFileDirectoryPath = Path.GetDirectoryName(InputFilePath);
+            string inputFileDirectoryPath = Path.GetDirectoryName(InputFilePath);
+            string backupDirectoryPath = Path.Combine(rootDirectoryPath, BackupDirectoryName);
+
+            if (!Directory.Exists(backupDirectoryPath))
+            {
+                WriteLine($"Creating {backupDirectoryPath}");
+                Directory.CreateDirectory(backupDirectoryPath);
+            }
         }
     }
 }
