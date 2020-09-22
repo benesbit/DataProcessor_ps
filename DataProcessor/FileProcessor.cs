@@ -22,6 +22,9 @@ namespace DataProcessor
                 WriteLine($"ERROR: file {InputFilePath} does not exist.");
                 return;
             }
+
+            string rootDirectoryPath = new DirectoryInfo(InputFilePath).Parent.Parent.FullName;
+            WriteLine($"Root data path is {rootDirectoryPath}");
         }
     }
 }
