@@ -30,6 +30,13 @@ namespace DataProcessor
                 WriteLine($"Directory {directoryPath} selected for {fileType} files");
                 ProcessDirectory(directoryPath, fileType);
             }
+            else
+            {
+                WriteLine("Invalid command line options.");
+            }
+
+            WriteLine("Press enter to quit.");
+            ReadLine();
         }
     }
 }
