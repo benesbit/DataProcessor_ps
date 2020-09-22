@@ -11,6 +11,18 @@ namespace DataProcessor
     {
         static void Main(string[] args)
         {
+            WriteLine("Parsing command line options");
+
+            // Command line validation omitted for now
+
+            var command = args[0];
+
+            if (command == "--file")
+            {
+                var filePath = args[1];
+                WriteLine($"Single file {filePath} selected");
+                ProcessSingleFile(filePath);
+            }
         }
     }
 }
