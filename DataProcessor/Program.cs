@@ -38,5 +38,16 @@ namespace DataProcessor
             WriteLine("Press enter to quit.");
             ReadLine();
         }
+
+        private static void ProcessSingleFile(string filePath)
+        {
+            var fileProcessor = new FileProcessor(filePath);
+            fileProcessor.Process();
+        }
+
+        private static void ProcessDirectory(string directoryPath, string fileType)
+        {
+
+        }
     }
 }
