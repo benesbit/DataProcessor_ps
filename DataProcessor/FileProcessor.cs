@@ -42,6 +42,21 @@ namespace DataProcessor
             string backupFilePath = Path.Combine(backupDirectoryPath, inputFileName);
             WriteLine($"Copying {InputFilePath} to {backupFilePath}");
             File.Copy(InputFilePath, backupFilePath, true);
+
+            // Move original to 'in progress' directory
+            Directory.CreateDirectory(Path.Combine(rootDirectoryPath, InProgressDirectoryName));
+
+            string inProgressFilePath =
+                Path.Combine(rootDirectoryPath, InProgressDirectoryName, inputFileName);
+
+            if (File.Exists(inProgressFilePath))
+            {
+                WriteLine($"ERROR: a file wit hthe name {inProgressFilePath} is already being processed.");
+                return;
+            }
+
+            WriteLine($"Moving {InputFilePath} to {inProgressFilePath}");
+            File.Move(InputFilePath, inProgressFilePath);
         }
     }
 }
