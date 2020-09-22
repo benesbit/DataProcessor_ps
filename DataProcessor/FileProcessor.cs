@@ -57,6 +57,24 @@ namespace DataProcessor
 
             WriteLine($"Moving {InputFilePath} to {inProgressFilePath}");
             File.Move(InputFilePath, inProgressFilePath);
+
+            // Determine type of file
+            string extension = Path.GetExtension(InputFilePath);
+            switch (extension)
+            {
+                case ".txt":
+                    ProcessTextFile(inProgressFilePath);
+                    break;
+                case ".data":
+                    WriteLine($"Support for filetype {extension} coming soon!");
+                    break;
+                case ".csv":
+                    WriteLine($"Support for filetype {extension} coming soon!");
+                    break;
+                default:
+                    WriteLine($"{extension} is an unsupported file type.");
+                    break;
+            }
         }
     }
 }
