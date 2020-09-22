@@ -8,7 +8,12 @@ namespace DataProcessor
 
         public FileProcessor(string filePath)
         {
-            this.filePath = filePath;
+            InputFilePath = filePath;
+        }
+
+        public void Process()
+        {
+            WriteLine($"Begin process of {InputFilePath}");
         }
     }
 }
