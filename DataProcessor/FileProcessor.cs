@@ -41,7 +41,7 @@ namespace DataProcessor
             string inputFileName = Path.GetFileName(InputFilePath);
             string backupFilePath = Path.Combine(backupDirectoryPath, inputFileName);
             WriteLine($"Copying {InputFilePath} to {backupFilePath}");
-            File.Copy(InputFilePath, backupFilePath);
+            File.Copy(InputFilePath, backupFilePath, true);
         }
     }
 }
