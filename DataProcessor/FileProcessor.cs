@@ -76,5 +76,12 @@ namespace DataProcessor
                     break;
             }
         }
+
+        private void ProcessTextFile(string inProgressFilePath)
+        {
+            WriteLine($"Processing text file {inProgressFilePath}");
+
+            // Read in and process
+        }
     }
 }
