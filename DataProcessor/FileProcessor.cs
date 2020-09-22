@@ -86,9 +86,9 @@ namespace DataProcessor
             var completedFileName =
                 $"{Path.GetFileNameWithoutExtension(InputFilePath)}-{Guid.NewGuid()}{extension}";
 
-            completedFileName = Path.ChangeExtension(completedFileName, ".complete");
+            // completedFileName = Path.ChangeExtension(completedFileName, ".complete");
 
-            // var completedFilePath = Path.Combine(completedDirectoryPath, completedFileName);
+            var completedFilePath = Path.Combine(completedDirectoryPath, completedFileName);
 
             File.Move(inProgressFilePath, completedFilePath);
         }
