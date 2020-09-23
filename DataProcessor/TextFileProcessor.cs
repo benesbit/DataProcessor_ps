@@ -15,7 +15,10 @@ namespace DataProcessor
 
         public void Process()
         {
-
+            // Using read all text
+            string originalText = File.ReadAllText(InputFilePath);
+            string proccesedText = originalText.ToUpperInvariant();
+            File.WriteAllText(OutputFilePath, proccesedText);
         }
     }
 }
