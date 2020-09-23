@@ -25,7 +25,7 @@ namespace DataProcessor
             using (StreamReader input = File.OpenText(InputFilePath))
             using (CsvReader csvReader = new CsvReader(input, CultureInfo.InvariantCulture))
             {
-                IEnumerable<dynamic> records = csvReader.GetRecords<dynamic>();
+                IEnumerable<Order> records = csvReader.GetRecords<Order>();
 
                 csvReader.Configuration.TrimOptions = TrimOptions.Trim;
                 csvReader.Configuration.Comment = '@'; // Default is '#'
