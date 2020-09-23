@@ -65,6 +65,7 @@ namespace DataProcessor
             {
                 case ".txt":
                     var textProcessor = new TextFileProcessor(inProgressFilePath, completedFilePath);
+                    textProcessor.Process();
                     break;
                 case ".data":
                     WriteLine($"Support for filetype {extension} coming soon!");
@@ -81,14 +82,13 @@ namespace DataProcessor
             string completedDirectoryPath = Path.Combine(rootDirectoryPath, CompletedDirectoryName);
             Directory.CreateDirectory(completedDirectoryPath);
 
-            WriteLine($"Moving {inProgressFilePath} to {completedDirectoryPath}");
-
             var completedFileName =
                 $"{Path.GetFileNameWithoutExtension(InputFilePath)}-{Guid.NewGuid()}{extension}";
 
             var completedFilePath = Path.Combine(completedDirectoryPath, completedFileName);
 
-            File.Move(inProgressFilePath, completedFilePath);
+            WriteLine($"Deleting {inProgressFilePath}");
+            File.Delete(inProgressFilePath);
         }
     }
 }
