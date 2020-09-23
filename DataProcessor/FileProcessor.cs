@@ -61,6 +61,15 @@ namespace DataProcessor
 
             // Determine type of file
             string extension = Path.GetExtension(InputFilePath);
+
+            string completedDirectoryPath = Path.Combine(rootDirectoryPath, CompletedDirectoryName);
+            Directory.CreateDirectory(completedDirectoryPath);
+
+            var completedFileName =
+                $"{Path.GetFileNameWithoutExtension(InputFilePath)}-{Guid.NewGuid()}{extension}";
+
+            var completedFilePath = Path.Combine(completedDirectoryPath, completedFileName);
+
             switch (extension)
             {
                 case ".txt":
@@ -77,15 +86,6 @@ namespace DataProcessor
                     WriteLine($"{extension} is an unsupported file type.");
                     break;
             }
-
-            // Move processed file to a 'completed' directory
-            string completedDirectoryPath = Path.Combine(rootDirectoryPath, CompletedDirectoryName);
-            Directory.CreateDirectory(completedDirectoryPath);
-
-            var completedFileName =
-                $"{Path.GetFileNameWithoutExtension(InputFilePath)}-{Guid.NewGuid()}{extension}";
-
-            var completedFilePath = Path.Combine(completedDirectoryPath, completedFileName);
 
             WriteLine($"Deleting {inProgressFilePath}");
             File.Delete(inProgressFilePath);
