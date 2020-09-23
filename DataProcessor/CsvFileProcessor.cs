@@ -30,7 +30,9 @@ namespace DataProcessor
                 csvReader.Configuration.TrimOptions = TrimOptions.Trim;
                 csvReader.Configuration.Comment = '@'; // Default is '#'
                 csvReader.Configuration.AllowComments = true;
-                //csvReader.Configuration.IgnoreBlankLines = false;
+                //csvReader.Configuration.IgnoreBlankLines = false; // Deafult is true
+                //csvReader.Configuration.Delimiter = ';'; // Default is ','
+
 
                 foreach (var record in records)
                 {
