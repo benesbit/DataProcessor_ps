@@ -3,7 +3,7 @@ using Xunit;
 
 namespace DataProcessor.Tests
 {
-    public class UnitTest1
+    public class TextFileProcessorShould
     {
         [Fact]
         public void Test1()
