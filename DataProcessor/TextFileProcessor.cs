@@ -21,8 +21,19 @@ namespace DataProcessor
                 while (!inputStreamReader.EndOfStream)
                 {
                     string line = inputStreamReader.ReadLine();
+
                     string processedLine = line.ToUpperInvariant();
-                    outputStreamWriter.WriteLine(processedLine);
+
+                    bool isLastLine = inputStreamReader.EndOfStream;
+
+                    if (isLastLine)
+                    {
+                        outputStreamWriter.Write(processedLine);
+                    }
+                    else
+                    {
+                        outputStreamWriter.WriteLine(processedLine);
+                    }
                 }
             }
         }
