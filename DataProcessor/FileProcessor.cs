@@ -10,7 +10,7 @@ namespace DataProcessor
         private static readonly string InProgressDirectoryName = "processing";
         private static readonly string CompletedDirectoryName = "complete";
 
-        public string InputFilePath { get;  }
+        public string InputFilePath { get; }
 
         public FileProcessor(string filePath)
         {
