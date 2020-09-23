@@ -16,28 +16,21 @@ namespace DataProcessor
 
             // Command line validation omitted for now
 
-            var command = args[0];
+            var directoryToWatch = args[0];
 
-            if (command == "--file")
+            if (!Directory.Exists(directoryToWatch))
             {
-                var filePath = args[1];
-                WriteLine($"Single file {filePath} selected");
-                ProcessSingleFile(filePath);
-            }
-            else if (command == "--dir")
-            {
-                var directoryPath = args[1];
-                var fileType = args[2];
-                WriteLine($"Directory {directoryPath} selected for {fileType} files");
-                ProcessDirectory(directoryPath, fileType);
+                WriteLine($"ERROR: {directoryToWatch} does not exist");
             }
             else
             {
-                WriteLine("Invalid command line options.");
-            }
+                WriteLine($"Watching directory {directoryToWatch} for changes");
 
-            WriteLine("Press enter to quit.");
-            ReadLine();
+                using (var inputFileWatcher = new FileSystemWatcher(directoryToWatch))
+                {
+                    inputFileWatcher.IncludeSubdirectories = false;
+                }
+            }
         }
 
         private static void ProcessSingleFile(string filePath)
