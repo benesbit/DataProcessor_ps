@@ -114,44 +114,5 @@ namespace DataProcessor
                 WriteLine($"WARNING: {args.CacheItem.Key} was removed unexpectedly and may not be...");
             }
         }
-
-        //private static void ProcessFiles(Object stateInfo)
-        //{
-        //    foreach (var fileName in FilesToProcess.Keys) // May not be in order of adding
-        //    {
-        //        if (FilesToProcess.TryRemove(fileName, out _))
-        //        {
-        //            var fileProcessor = new FileProcessor(fileName);
-        //            fileProcessor.Process();
-        //        }
-        //    }
-        //}
-
-        //private static void ProcessSingleFile(string filePath)
-        //{
-        //    var fileProcessor = new FileProcessor(filePath);
-        //    fileProcessor.Process();
-        //}
-
-        //private static void ProcessDirectory(string directoryPath, string fileType)
-        //{
-        //    // Get all files
-        //    // var allFiles = Directory.GetFiles(directoryPath);
-
-        //    switch (fileType)
-        //    {
-        //        case "TEXT":
-        //            string[] textFiles = Directory.GetFiles(directoryPath, "*.txt");
-        //            foreach (var textFilePath in textFiles)
-        //            {
-        //                var fileProcessor = new FileProcessor(textFilePath);
-        //                fileProcessor.Process();
-        //            }
-        //            break;
-        //        default:
-        //            WriteLine($"ERROR: {fileType} is not supported");
-        //            return;
-        //    }
-        //}
     }
 }
