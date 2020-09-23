@@ -15,14 +15,12 @@ namespace DataProcessor
 
         public void Process()
         {
-            using (var inputFileStream = new FileStream(InputFilePath, FileMode.Open))
-            using (var inputStremReader = new StreamReader(inputFileStream))
-            using (var outputFileStream = new FileStream(OutputFilePath, FileMode.Create))
-            using (var outputStreamWriter = new StreamWriter(outputFileStream))
+            using (var inputStreamReader = new StreamReader(InputFilePath))
+            using (var outputStreamWriter = new StreamWriter(OutputFilePath))
             {
-                while (!inputStremReader.EndOfStream)
+                while (!inputStreamReader.EndOfStream)
                 {
-                    string line = inputStremReader.ReadLine();
+                    string line = inputStreamReader.ReadLine();
                     string processedLine = line.ToUpperInvariant();
                     outputStreamWriter.WriteLine(processedLine);
                 }
