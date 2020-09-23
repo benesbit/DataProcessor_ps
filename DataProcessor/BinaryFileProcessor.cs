@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace DataProcessor
 {
@@ -19,7 +20,15 @@ namespace DataProcessor
 
         public void Process()
         {
+            byte[] data = File.ReadAllBytes(InputFilePath);
 
+            byte largest = data.Max();
+
+            byte[] newData = new byte[data.Length + 1];
+            Array.Copy(data, newData, data.Length);
+            newData[newData.Length - 1] = largest;
+
+            File.WriteAllBytes(OutputFilePath, newData);
         }
     }
 }
