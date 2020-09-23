@@ -64,7 +64,7 @@ namespace DataProcessor
             switch (extension)
             {
                 case ".txt":
-                    ProcessTextFile(inProgressFilePath);
+                    var textProcessor = new TextFileProcessor(inProgressFilePath, completedFilePath);
                     break;
                 case ".data":
                     WriteLine($"Support for filetype {extension} coming soon!");
@@ -89,13 +89,6 @@ namespace DataProcessor
             var completedFilePath = Path.Combine(completedDirectoryPath, completedFileName);
 
             File.Move(inProgressFilePath, completedFilePath);
-        }
-
-        private void ProcessTextFile(string inProgressFilePath)
-        {
-            WriteLine($"Processing text file {inProgressFilePath}");
-
-            // Read in and process
         }
     }
 }
