@@ -25,7 +25,7 @@ namespace DataProcessor
             using (StreamReader input = File.OpenText(InputFilePath))
             using (CsvReader csvReader = new CsvReader(input, CultureInfo.InvariantCulture))
             {
-                IEnumerable<Order> records = csvReader.GetRecords<Order>();
+                IEnumerable<ProcessedOrder> records = csvReader.GetRecords<ProcessedOrder>();
 
                 csvReader.Configuration.TrimOptions = TrimOptions.Trim;
                 csvReader.Configuration.Comment = '@'; // Default is '#'
@@ -35,12 +35,14 @@ namespace DataProcessor
                 //csvReader.Configuration.HasHeaderRecord = false; // Default is true
 
 
-                foreach (Order record in records)
+                foreach (ProcessedOrder record in records)
                 {
                     Console.WriteLine(record.OrderNumber); // If no header, this should be Field1
-                    Console.WriteLine(record.CustomerNumber); // If no header, this should be Field2, etc.
-                    Console.WriteLine(record.Description);
-                    Console.WriteLine(record.Quantity);
+                    //Console.WriteLine(record.CustomerNumber); // If no header, this should be Field2, etc.
+                    //Console.WriteLine(record.Description);
+                    //Console.WriteLine(record.Quantity);
+                    Console.WriteLine(record.Customer);
+                    Console.WriteLine(record.Amount);
                 }
             }
         }
