@@ -93,8 +93,8 @@ namespace DataProcessor
             File.Move(inProgressFilePath, completedFilePath);
 
             // Delete processing directory
-            string inProgressDirectoryPath = Path.GetDirectoryName(inProgressFilePath);
-            Directory.Delete(inProgressDirectoryPath, true);
+            //string inProgressDirectoryPath = Path.GetDirectoryName(inProgressFilePath);
+            //Directory.Delete(inProgressDirectoryPath, true);
         }
 
         private void ProcessTextFile(string inProgressFilePath)
