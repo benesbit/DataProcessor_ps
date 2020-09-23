@@ -24,9 +24,9 @@ namespace DataProcessor
         {
             using (StreamReader input = File.OpenText(InputFilePath))
             using (CsvReader csvReader = new CsvReader(input, CultureInfo.InvariantCulture))
+            using (StreamWriter output = File.CreateText(OutputFilPath))
+            using (var csvWriter = new CsvWriter(output, CultureInfo.InvariantCulture))
             {
-                IEnumerable<ProcessedOrder> records = csvReader.GetRecords<ProcessedOrder>();
-
                 csvReader.Configuration.TrimOptions = TrimOptions.Trim;
                 csvReader.Configuration.Comment = '@'; // Default is '#'
                 csvReader.Configuration.AllowComments = true;
@@ -37,16 +37,19 @@ namespace DataProcessor
                 //csvReader.Configuration.MissingFieldFound = null;
                 csvReader.Configuration.RegisterClassMap<ProcessedOrderMap>();
 
+                IEnumerable<ProcessedOrder> records = csvReader.GetRecords<ProcessedOrder>();
 
-                foreach (ProcessedOrder record in records)
-                {
-                    Console.WriteLine(record.OrderNumber); // If no header, this should be Field1
-                    //Console.WriteLine(record.CustomerNumber); // If no header, this should be Field2, etc.
-                    //Console.WriteLine(record.Description);
-                    //Console.WriteLine(record.Quantity);
-                    Console.WriteLine(record.Customer);
-                    Console.WriteLine(record.Amount);
-                }
+                csvWriter.WriteRecords(records);
+
+                //foreach (ProcessedOrder record in records)
+                //{
+                //    Console.WriteLine(record.OrderNumber); // If no header, this should be Field1
+                //    //Console.WriteLine(record.CustomerNumber); // If no header, this should be Field2, etc.
+                //    //Console.WriteLine(record.Description);
+                //    //Console.WriteLine(record.Quantity);
+                //    Console.WriteLine(record.Customer);
+                //    Console.WriteLine(record.Amount);
+                //}
             }
         }
     }
