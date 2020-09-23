@@ -39,10 +39,35 @@ namespace DataProcessor
                     inputFileWatcher.Renamed += FileRenamed;
                     inputFileWatcher.Error += WatcherError;
 
+
+
                     WriteLine("Press enter to quit...");
                     ReadLine();
                 }
             }
+        }
+
+        private static void FileCreated(object sender, FileSystemEventArgs e)
+        {
+            WriteLine($"* File created: {e.Name} - type: {e.ChangeType}");
+        }
+
+        private static void FileChanged(object sender, FileSystemEventArgs e)
+        {
+            WriteLine($"* File changed: {e.Name} - type: {e.ChangeType}");
+        }
+
+        private static void FileDeleted(object sender, FileSystemEventArgs e)
+        {
+            WriteLine($"* File deleted: {e.Name} - type: {e.ChangeType}");
+        }
+        private static void FileRenamed(object sender, RenamedEventArgs e)
+        {
+            WriteLine($"* File renamed: {e.OldName} to {e.Name} - type: {e.ChangeType}");
+        }
+        private static void WatcherError(object sender, ErrorEventArgs e)
+        {
+            WriteLine($"ERROR: file system watching may no longer be active: {e.GetException()}");
         }
 
         private static void ProcessSingleFile(string filePath)
