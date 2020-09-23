@@ -1,6 +1,8 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,9 +23,22 @@ namespace DataProcessor
         public void Process()
         {
             using (StreamReader input = File.OpenText(InputFilePath))
-            using (CsvReader csvReader = new CsvReader(input, System.Globalization.CultureInfo.CreateSpecificCulture("enUS")))
+            using (CsvReader csvReader = new CsvReader(input, CultureInfo.InvariantCulture))
             {
+                IEnumerable<dynamic> records = csvReader.GetRecords<dynamic>();
 
+                csvReader.Configuration.TrimOptions = TrimOptions.Trim;
+                csvReader.Configuration.Comment = '@'; // Default is '#'
+                csvReader.Configuration.AllowComments = true;
+                //csvReader.Configuration.IgnoreBlankLines = false;
+
+                foreach (var record in records)
+                {
+                    Console.WriteLine(record.OrderNumber);
+                    Console.WriteLine(record.CustomerNumber);
+                    Console.WriteLine(record.Description);
+                    Console.WriteLine(record.Quantity);
+                }
             }
         }
     }
