@@ -20,28 +20,25 @@ namespace DataProcessor
 
         public void Process()
         {
-            using (FileStream input = File.Open(InputFilePath, FileMode.Open, FileAccess.Read))
-            using (FileStream output = File.Create(OutputFilePath))
+            using (FileStream inputFileStream = File.Open(InputFilePath, FileMode.Open, FileAccess.Read))
+            using (BinaryReader binaryStreamReader = new BinaryReader(inputFileStream))
+            using (FileStream outputFileStream = File.Create(OutputFilePath))
+            using (BinaryWriter binaryStreamWriter = new BinaryWriter(outputFileStream))
             {
-                const int endOfStream = -1;
-
-                int largestByte = 0;
-
-                int currentByte = input.ReadByte();
-
-                while (currentByte != endOfStream)
+                byte largest = 0;
+                while (binaryStreamReader.BaseStream.Position < binaryStreamReader.BaseStream.Length)
                 {
-                    output.WriteByte((byte)currentByte);
+                    byte currentByte = binaryStreamReader.ReadByte();
 
-                    if (currentByte > largestByte)
+                    binaryStreamWriter.Write(currentByte);
+
+                    if (currentByte > largest)
                     {
-                        largestByte = currentByte;
+                        largest = currentByte;
                     }
-
-                    currentByte = input.ReadByte();
                 }
 
-                output.WriteByte((byte)largestByte);
+                binaryStreamWriter.Write(largest);
             }
         }
     }
