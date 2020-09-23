@@ -35,7 +35,7 @@ namespace DataProcessor
                 //csvReader.Configuration.HasHeaderRecord = false; // Default is true
 
 
-                foreach (var record in records)
+                foreach (Order record in records)
                 {
                     Console.WriteLine(record.OrderNumber); // If no header, this should be Field1
                     Console.WriteLine(record.CustomerNumber); // If no header, this should be Field2, etc.
