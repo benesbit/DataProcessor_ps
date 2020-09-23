@@ -77,7 +77,8 @@ namespace DataProcessor
                     textProcessor.Process();
                     break;
                 case ".data":
-                    WriteLine($"Support for filetype {extension} coming soon!");
+                    var binaryProcessor = new BinaryFileProcessor(inProgressFilePath, completedFilePath);
+                    binaryProcessor.Process();
                     break;
                 case ".csv":
                     WriteLine($"Support for filetype {extension} coming soon!");
