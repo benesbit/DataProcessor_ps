@@ -33,6 +33,9 @@ namespace DataProcessor
                 //csvReader.Configuration.IgnoreBlankLines = false; // Deafult is true
                 //csvReader.Configuration.Delimiter = ';'; // Default is ','
                 //csvReader.Configuration.HasHeaderRecord = false; // Default is true
+                //csvReader.Configuration.HeaderValidated = null;
+                //csvReader.Configuration.MissingFieldFound = null;
+                csvReader.Configuration.RegisterClassMap<ProcessedOrderMap>();
 
 
                 foreach (ProcessedOrder record in records)
