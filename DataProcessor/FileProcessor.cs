@@ -81,7 +81,7 @@ namespace DataProcessor
                     binaryProcessor.Process();
                     break;
                 case ".csv":
-                    var csvProcessor = new CsvFileProcessor(inProgressFilePath, completedFileName);
+                    var csvProcessor = new CsvFileProcessor(inProgressFilePath, completedFilePath);
                     csvProcessor.Process();
                     break;
                 default:
