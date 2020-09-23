@@ -32,12 +32,13 @@ namespace DataProcessor
                 csvReader.Configuration.AllowComments = true;
                 //csvReader.Configuration.IgnoreBlankLines = false; // Deafult is true
                 //csvReader.Configuration.Delimiter = ';'; // Default is ','
+                //csvReader.Configuration.HasHeaderRecord = false; // Default is true
 
 
                 foreach (var record in records)
                 {
-                    Console.WriteLine(record.OrderNumber);
-                    Console.WriteLine(record.CustomerNumber);
+                    Console.WriteLine(record.OrderNumber); // If no header, this should be Field1
+                    Console.WriteLine(record.CustomerNumber); // If no header, this should be Field2, etc.
                     Console.WriteLine(record.Description);
                     Console.WriteLine(record.Quantity);
                 }
