@@ -31,7 +31,7 @@ namespace DataProcessor
                     inputFileWatcher.IncludeSubdirectories = false;
                     inputFileWatcher.InternalBufferSize = 32768; // 32 KB
                     inputFileWatcher.Filter = "*.*"; // Monitor all files
-                    inputFileWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                    inputFileWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
 
                     inputFileWatcher.Created += FileCreated;
                     inputFileWatcher.Changed += FileChanged;
@@ -39,7 +39,7 @@ namespace DataProcessor
                     inputFileWatcher.Renamed += FileRenamed;
                     inputFileWatcher.Error += WatcherError;
 
-
+                    inputFileWatcher.EnableRaisingEvents = true;
 
                     WriteLine("Press enter to quit...");
                     ReadLine();
