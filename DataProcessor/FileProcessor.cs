@@ -81,7 +81,8 @@ namespace DataProcessor
                     binaryProcessor.Process();
                     break;
                 case ".csv":
-                    WriteLine($"Support for filetype {extension} coming soon!");
+                    var csvProcessor = new CsvFileProcessor(inProgressFilePath, completedFileName);
+                    csvProcessor.Process();
                     break;
                 default:
                     WriteLine($"{extension} is an unsupported file type.");
