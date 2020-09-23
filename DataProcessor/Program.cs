@@ -1,19 +1,14 @@
 ﻿using System;
 using static System.Console;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Collections.Concurrent;
 using System.Threading;
+using System.Runtime.Caching;
 
 namespace DataProcessor
 {
     class Program
     {
-        private static ConcurrentDictionary<string, string> FilesToProcess =
-            new ConcurrentDictionary<string, string>();
+        private static MemoryCache FilesToProcess = MemoryCache.Default;
 
         static void Main(string[] args)
         {
@@ -32,7 +27,6 @@ namespace DataProcessor
                 WriteLine($"Watching directory {directoryToWatch} for changes");
 
                 using (var inputFileWatcher = new FileSystemWatcher(directoryToWatch))
-                using (var timer = new Timer(ProcessFiles, null, 0, 1000))
                 {
                     inputFileWatcher.IncludeSubdirectories = false;
                     inputFileWatcher.InternalBufferSize = 32768; // 32 KB
@@ -57,20 +51,14 @@ namespace DataProcessor
         {
             WriteLine($"* File created: {e.Name} - type: {e.ChangeType}");
 
-            // var fileProcessor = new FileProcessor(e.FullPath);
-            // fileProcessor.Process();
-
-            FilesToProcess.TryAdd(e.FullPath, e.FullPath);
+            AddToCache(e.FullPath);
         }
 
         private static void FileChanged(object sender, FileSystemEventArgs e)
         {
             WriteLine($"* File changed: {e.Name} - type: {e.ChangeType}");
 
-            // var fileProcessor = new FileProcessor(e.FullPath);
-            // fileProcessor.Process();
-
-            FilesToProcess.TryAdd(e.FullPath, e.FullPath);
+            AddToCache(e.FullPath);
         }
 
         private static void FileDeleted(object sender, FileSystemEventArgs e)
@@ -86,43 +74,71 @@ namespace DataProcessor
             WriteLine($"ERROR: file system watching may no longer be active: {e.GetException()}");
         }
 
-        private static void ProcessFiles(Object stateInfo)
+        private static void AddToCache(string fullPath)
         {
-            foreach (var fileName in FilesToProcess.Keys) // May not be in order of adding
+            var item = new CacheItem(fullPath, fullPath);
+
+            var policy = new CacheItemPolicy
             {
-                if (FilesToProcess.TryRemove(fileName, out _))
-                {
-                    var fileProcessor = new FileProcessor(fileName);
-                    fileProcessor.Process();
-                }
+                RemovedCallback = ProcessFile,
+                SlidingExpiration = TimeSpan.FromSeconds(2),
+            };
+
+            FilesToProcess.Add(item, policy);
+        }
+
+        private static void ProcessFile(CacheEntryRemovedArguments args)
+        {
+            WriteLine($"* Cahce item removed: {args.CacheItem.Key} because {args.RemovedReason}");
+
+            if (args.RemovedReason == CacheEntryRemovedReason.Expired)
+            {
+                var fileProcessor = new FileProcessor(args.CacheItem.Key);
+                fileProcessor.Process();
+            }
+            else
+            {
+                WriteLine($"WARNING: {args.CacheItem.Key} was removed unexpectedly and may not be...");
             }
         }
 
-        private static void ProcessSingleFile(string filePath)
-        {
-            var fileProcessor = new FileProcessor(filePath);
-            fileProcessor.Process();
-        }
+        //private static void ProcessFiles(Object stateInfo)
+        //{
+        //    foreach (var fileName in FilesToProcess.Keys) // May not be in order of adding
+        //    {
+        //        if (FilesToProcess.TryRemove(fileName, out _))
+        //        {
+        //            var fileProcessor = new FileProcessor(fileName);
+        //            fileProcessor.Process();
+        //        }
+        //    }
+        //}
 
-        private static void ProcessDirectory(string directoryPath, string fileType)
-        {
-            // Get all files
-            // var allFiles = Directory.GetFiles(directoryPath);
+        //private static void ProcessSingleFile(string filePath)
+        //{
+        //    var fileProcessor = new FileProcessor(filePath);
+        //    fileProcessor.Process();
+        //}
 
-            switch (fileType)
-            {
-                case "TEXT":
-                    string[] textFiles = Directory.GetFiles(directoryPath, "*.txt");
-                    foreach (var textFilePath in textFiles)
-                    {
-                        var fileProcessor = new FileProcessor(textFilePath);
-                        fileProcessor.Process();
-                    }
-                    break;
-                default:
-                    WriteLine($"ERROR: {fileType} is not supported");
-                    return;
-            }
-        }
+        //private static void ProcessDirectory(string directoryPath, string fileType)
+        //{
+        //    // Get all files
+        //    // var allFiles = Directory.GetFiles(directoryPath);
+
+        //    switch (fileType)
+        //    {
+        //        case "TEXT":
+        //            string[] textFiles = Directory.GetFiles(directoryPath, "*.txt");
+        //            foreach (var textFilePath in textFiles)
+        //            {
+        //                var fileProcessor = new FileProcessor(textFilePath);
+        //                fileProcessor.Process();
+        //            }
+        //            break;
+        //        default:
+        //            WriteLine($"ERROR: {fileType} is not supported");
+        //            return;
+        //    }
+        //}
     }
 }
