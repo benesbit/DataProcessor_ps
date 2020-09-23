@@ -39,7 +39,25 @@ namespace DataProcessor
 
                 IEnumerable<ProcessedOrder> records = csvReader.GetRecords<ProcessedOrder>();
 
-                csvWriter.WriteRecords(records);
+                //csvWriter.WriteRecords(records);
+
+                csvWriter.WriteHeader<ProcessedOrder>();
+                csvWriter.NextRecord();
+
+                var recordsArray = records.ToArray();
+                for (int i = 0; i < recordsArray.Length; ++i)
+                {
+                    csvWriter.WriteField(recordsArray[i].OrderNumber);
+                    csvWriter.WriteField(recordsArray[i].Customer);
+                    csvWriter.WriteField(recordsArray[i].Amount);
+
+                    bool isLastRecord = i == recordsArray.Length - 1;
+
+                    if (!isLastRecord)
+                    {
+                        csvWriter.NextRecord();
+                    }
+                }
 
                 //foreach (ProcessedOrder record in records)
                 //{
