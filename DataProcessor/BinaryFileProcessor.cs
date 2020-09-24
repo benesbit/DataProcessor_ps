@@ -1,28 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.IO;
+using System.IO.Abstractions;
 
 namespace DataProcessor
 {
     class BinaryFileProcessor
     {
+        private readonly IFileSystem _fileSystem;
+
         public string InputFilePath { get; }
         public string OutputFilePath { get; }
 
         public BinaryFileProcessor(string inputFilePath, string outputFilePath)
+            : this(inputFilePath, outputFilePath, new FileSystem()) { }
+
+        public BinaryFileProcessor(string inputFilePath, string outputFilePath, IFileSystem fileSystem)
         {
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
+            _fileSystem = fileSystem;
         }
 
         public void Process()
         {
-            using (FileStream inputFileStream = File.Open(InputFilePath, FileMode.Open, FileAccess.Read))
+            using (Stream inputFileStream = _fileSystem.File.Open(InputFilePath, FileMode.Open, FileAccess.Read))
             using (BinaryReader binaryStreamReader = new BinaryReader(inputFileStream))
-            using (FileStream outputFileStream = File.Create(OutputFilePath))
+            using (Stream outputFileStream = _fileSystem.File.Create(OutputFilePath))
             using (BinaryWriter binaryStreamWriter = new BinaryWriter(outputFileStream))
             {
                 byte largest = 0;
