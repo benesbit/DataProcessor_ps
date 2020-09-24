@@ -14,8 +14,20 @@ namespace DataProcessor.Tests
             mockFileSystem.AddFile(@"c:\root\in\myfile.data", mockInputFile);
             mockFileSystem.AddDirectory(@"c:\root\out");
 
-            //var sut = new BinaryFileProcessor(@"c:\root\in\myfile.data",
-            //                                  @"c:\root\out\myfile.data",)
+            var sut = new BinaryFileProcessor(@"c:\root\in\myfile.data",
+                                              @"c:\root\out\myfile.data",
+                                              mockFileSystem);
+
+            sut.Process();
+
+            Assert.True(mockFileSystem.FileExists(@"c:\root\out\myfile.data"));
+
+            var processedFile = mockFileSystem.GetFile(@"c:\root\out\myfile.data");
+
+            var data = processedFile.Contents;
+
+            Assert.Equal(5, data.Length);
+            Assert.Equal(0xFF, data[4]);
         }
     }
 }
