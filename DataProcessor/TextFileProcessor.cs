@@ -5,7 +5,7 @@ namespace DataProcessor
 {
     public class TextFileProcessor
     {
-        private readonly IFileSystem _filesystem;
+        private readonly IFileSystem _fileSystem;
 
         public string InputFilePath { get; }
         public string OutputFilePath { get; }
@@ -17,13 +17,13 @@ namespace DataProcessor
         {
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
-            _filesystem = fileSystem;
+            _fileSystem = fileSystem;
         }
 
         public void Process()
         {
-            using (var inputStreamReader = _filesystem.File.OpenText(InputFilePath))
-            using (var outputStreamWriter = _filesystem.File.CreateText(OutputFilePath))
+            using (var inputStreamReader = _fileSystem.File.OpenText(InputFilePath))
+            using (var outputStreamWriter = _fileSystem.File.CreateText(OutputFilePath))
             {
                 var currentLineNumber = 1;
                 while (!inputStreamReader.EndOfStream)
