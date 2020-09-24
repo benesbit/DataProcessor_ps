@@ -20,7 +20,7 @@ namespace DataProcessor.Tests
             var outputFilePath = Path.Combine(outputDir, outputFileName);
 
             var csvLines = new StringBuilder();
-            csvLines.AppendLine("Order Number,Customer Number,Description,Quantity");
+            csvLines.AppendLine("OrderNumber,CustomerNumber,Description,Quantity");
             csvLines.AppendLine("42, 100001, Shirt, II");
             csvLines.AppendLine("43, 200002, Shorts, I");
             csvLines.AppendLine("@ This is a comment");
