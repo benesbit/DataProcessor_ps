@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DataProcessor
 {
-    class CsvFileProcessor
+    public class CsvFileProcessor
     {
         private readonly IFileSystem _fileSystem;
 
