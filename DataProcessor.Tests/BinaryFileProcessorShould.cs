@@ -24,7 +24,7 @@ namespace DataProcessor.Tests
 
             var processedFile = mockFileSystem.GetFile(@"c:\root\out\myfile.data");
 
-            var data = processedFile.Contents;
+            byte[] data = processedFile.Contents;
 
             Assert.Equal(5, data.Length);
             Assert.Equal(0xFF, data[4]);
