@@ -1,22 +1,29 @@
 ﻿using System.IO;
+using System.IO.Abstractions;
 
 namespace DataProcessor
 {
-    class TextFileProcessor
+    public class TextFileProcessor
     {
+        private readonly IFileSystem _filesystem;
+
         public string InputFilePath { get; }
         public string OutputFilePath { get; }
 
         public TextFileProcessor(string inputFilePath, string outputFilePath)
+            : this(inputFilePath, outputFilePath, new FileSystem()) { }
+
+        public TextFileProcessor(string inputFilePath, string outputFilePath, IFileSystem fileSystem)
         {
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
+            _filesystem = fileSystem;
         }
 
         public void Process()
         {
-            using (var inputStreamReader = new StreamReader(InputFilePath))
-            using (var outputStreamWriter = new StreamWriter(OutputFilePath))
+            using (var inputStreamReader = _filesystem.File.OpenText(InputFilePath))
+            using (var outputStreamWriter = _filesystem.File.CreateText(OutputFilePath))
             {
                 var currentLineNumber = 1;
                 while (!inputStreamReader.EndOfStream)
