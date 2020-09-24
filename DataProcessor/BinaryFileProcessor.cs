@@ -3,7 +3,7 @@ using System.IO.Abstractions;
 
 namespace DataProcessor
 {
-    class BinaryFileProcessor
+    public class BinaryFileProcessor
     {
         private readonly IFileSystem _fileSystem;
 
