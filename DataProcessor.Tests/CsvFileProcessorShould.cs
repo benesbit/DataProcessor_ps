@@ -3,12 +3,15 @@ using Xunit;
 using System.IO.Abstractions.TestingHelpers;
 using System.IO;
 using System.Text;
+using ApprovalTests;
+using ApprovalTests.Reporters;
 
 namespace DataProcessor.Tests
 {
     public class CsvFileProcessorShould
     {
         [Fact]
+        [UseReporter(typeof(DiffReporter))]
         public void OutputProcessedOrderCsvData()
         {
             const string inputDir = @"c:\root\in";
@@ -40,12 +43,14 @@ namespace DataProcessor.Tests
 
             var processedFile = mockFileSystem.GetFile(outputFilePath);
 
-            var lines = processedFile.TextContents.SplitLines();
+            Approvals.Verify(processedFile.TextContents);
 
-            Assert.Equal("OrderNumber,Customer,Amount", lines[0]);
-            Assert.Equal("42,100001,2", lines[1]);
-            Assert.Equal("43,200002,1", lines[2]);
-            Assert.Equal("44,300003,5", lines[3]);
+            //var lines = processedFile.TextContents.SplitLines();
+
+            //Assert.Equal("OrderNumber,Customer,Amount", lines[0]);
+            //Assert.Equal("42,100001,2", lines[1]);
+            //Assert.Equal("43,200002,1", lines[2]);
+            //Assert.Equal("44,300003,5", lines[3]);
         }
     }
 }
