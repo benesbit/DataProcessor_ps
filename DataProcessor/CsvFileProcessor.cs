@@ -1,30 +1,34 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using System;
+using System.IO.Abstractions;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataProcessor
 {
     class CsvFileProcessor
     {
+        private readonly IFileSystem _fileSystem;
+
         public string InputFilePath { get; }
         public string OutputFilPath { get; }
 
         public CsvFileProcessor(string inputFilePath, string outputFilePath)
+            : this(inputFilePath, outputFilePath, new FileSystem()) { }
+
+        public CsvFileProcessor(string inputFilePath, string outputFilePath, IFileSystem fileSystem)
         {
             InputFilePath = inputFilePath;
             OutputFilPath = outputFilePath;
+            _fileSystem = fileSystem;
         }
         public void Process()
         {
-            using (StreamReader input = File.OpenText(InputFilePath))
+            using (StreamReader input = _fileSystem.File.OpenText(InputFilePath))
             using (CsvReader csvReader = new CsvReader(input, CultureInfo.InvariantCulture))
-            using (StreamWriter output = File.CreateText(OutputFilPath))
+            using (StreamWriter output = _fileSystem.File.CreateText(OutputFilPath))
             using (var csvWriter = new CsvWriter(output, CultureInfo.InvariantCulture))
             {
                 csvReader.Configuration.TrimOptions = TrimOptions.Trim;
